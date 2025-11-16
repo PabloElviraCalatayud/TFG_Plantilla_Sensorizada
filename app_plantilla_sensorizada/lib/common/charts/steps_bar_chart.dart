@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../core/colors.dart';
 
 class StepsBarChartWidget extends StatelessWidget {
   final List<int> data;
@@ -12,44 +11,79 @@ class StepsBarChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.lightSurface,
+        color: cs.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Últimos 7 días',
-            style: TextStyle(
-              fontSize: 18,
-              color: AppColors.lightText,
-              fontWeight: FontWeight.w500,
-            ),
+
+          Row(
+            children: [
+              Icon(
+                Icons.bar_chart,
+                color: cs.primary,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Actividad semanal',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
+
+          const SizedBox(height: 20),
 
           SizedBox(
             height: 200,
             child: BarChart(
               BarChartData(
-                borderData: FlBorderData(show: false),
                 gridData: const FlGridData(show: false),
-                titlesData: FlTitlesData(show: false),
+                borderData: FlBorderData(show: false),
+                titlesData: FlTitlesData(
+                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        const days = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+                        if (value < 0 || value > 6) return const SizedBox.shrink();
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            days[value.toInt()],
+                            style: TextStyle(
+                              color: cs.onSurface.withOpacity(0.7),
+                              fontSize: 12,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 barGroups: data.asMap().entries.map((entry) {
                   final index = entry.key;
-                  final value = entry.value;
+                  final value = entry.value.toDouble();
 
                   return BarChartGroupData(
                     x: index,
                     barRods: [
                       BarChartRodData(
-                        toY: value.toDouble(),
-                        color: AppColors.lightPrimary,
-                        borderRadius: BorderRadius.circular(6),
+                        toY: value,
                         width: 18,
+                        color: cs.primary,
+                        borderRadius: BorderRadius.circular(6),
                       ),
                     ],
                   );

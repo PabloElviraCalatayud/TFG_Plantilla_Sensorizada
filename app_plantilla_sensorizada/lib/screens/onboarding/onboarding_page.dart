@@ -16,23 +16,24 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final List<Map<String, String>> onboardingData = [
     {
       "image": "assets/illustrations/connected_world.svg",
-      "title": "Conecta tu DAS",
+      "title": "Conecta tus plantillas",
       "description":
-      "Empareja tu dispositivo con el DAS para soñar como nunca has soñado.",
+      "Empareja tus plantillas sensorizadas y empieza a registrar tu forma de caminar de manera sencilla.",
+    },
+    {
+      "image": "assets/illustrations/undraw_app-benchmarks_ls0m.svg",
+      "title": "Observa tu pisada",
+      "description":
+      "Consulta en tiempo real la presión de cada paso y conoce cómo se reparte tu apoyo al caminar.",
     },
     {
       "image": "assets/illustrations/heart.svg",
-      "title": "Monitorea tu pulso y O2",
+      "title": "Detecta posibles anomalías",
       "description":
-      "Visualiza en tiempo real tus pulsaciones y oxígeno en sangre",
-    },
-    {
-      "image": "assets/illustrations/moon.svg",
-      "title": "Detecta tus episodios de apnea",
-      "description":
-      "Descubre tus tendencias, mejora tu descanso y evita percances con DDAS.",
+      "Recibe una estimación del riesgo de sufrir una patología relacionada con la marcha, basada en tus hábitos diarios.",
     },
   ];
+
 
   void _nextPage() {
     if (_currentPage == onboardingData.length - 1) {
